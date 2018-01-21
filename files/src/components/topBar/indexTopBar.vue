@@ -2,7 +2,7 @@
   <div id="indexNavBox">
       <header>
           <div>
-              <a href="" class="navLogo"></a>
+              <a href="" class="navLogo"><img src="dongli.png" alt=""></a>
           </div>
       </header>
   </div>
