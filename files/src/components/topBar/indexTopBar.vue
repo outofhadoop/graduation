@@ -16,8 +16,20 @@
                         </el-menu>
                     </div></li>
                 </ul>
-                <ul class="nav-ul-pc">
+                <ul class="nav-ul-pc nav-list-margin">
                     <li v-for="item in navli" v-bind:key="item.index"><a href="#" class="nav-link-pc">{{ item.name }}</a></li>
+                    <li class="nav-form-margin">
+                        <form action="" v-bind:class="navInputBlur ? 'nav-form-blur' : 'nav-form-focus'">
+                            <input type="text" maxlength="32" v-on:blur="checkBlur" v-on:focus="checkFocus" v-bind:class="navInputBlur ? 'nav-search-input-focus' : 'nav-search-input-blur'"><icon name="search" class="nav-search-icon-blur" v-bind:class="navInputBlur ? 'nav-search-icon-blur' : 'nav-search-icon-focus'"></icon>
+                        </form>
+                    </li>
+                    <li class="nav-writePage mainColor">
+                        <icon name="file-text-o" class="writePageIcon mainColor"></icon><span class="writePage mainColor">写文章</span>
+                    </li>
+                    <li>
+                        <span class="nav-login mainColor">登录</span>
+                        <span class="nav-register mainColor">注册</span>
+                    </li>
                 </ul>
             </nav>
           </div>
@@ -47,12 +59,20 @@ export default {
                 name: "活动",
                 url: ""
             }
-        ]
+        ],
+        navInputBlur: false,
+
       }
   },
   methods: {
       homeNavMenu () {
 
+      },
+      checkBlur () {
+          this.navInputBlur = !this.navInputBlur;
+      },
+      checkFocus () {
+          this.navInputBlur = !this.navInputBlur;
       }
   }
 }
@@ -65,7 +85,7 @@ export default {
 /* 全局样式 */
 /* 头部logo */
 header{height: 60px;}
-.container{margin: auto;display: flex;display: -webkit-flex;display: -webkit-inline-flex;display: inline-flex;}
+.container{margin: auto;max-width: 960px;display: flex;display: -webkit-flex;align-items: center;-ms-flex-align: center;}
 .headLogo a img{width: 100%;height: 100%;}
 .navLogo{display: block;height: 50px;width: 50px;}
 .nav-ul-pc{display: flex;display: -webkit-flex;list-style: none;padding:0px;}
@@ -76,4 +96,25 @@ header{height: 60px;}
 .nav-link-pc:hover{
     color: #007fff;
 }
+.nav-form-blur{display: flex;display: -webkit-flex;;display: inline-block;border: solid 1px #007fff;height: 25px;overflow: visible;}
+.nav-form-focus{display: flex;display: -webkit-flex;;display: inline-block;border: solid 1px #808080;height: 25px;overflow: visible;}
+.nav-search-input-blur{display: flex;display: -webkit-flex;height: 25px;width: 145px;background: #F9FAFB;padding-right: 30px;border: none;}
+.nav-search-icon-blur{display: flex;display: -webkit-flex;cursor: pointer;display: inline-block;position: relative;left: 155px;top: -22px;color: #007fff;}
+.nav-search-input-focus{display: flex;display: -webkit-flex;height: 25px;width: 145px;background: white;padding-right: 30px;outline: none;border: none;}
+.nav-search-icon-focus{color: #71777c;display: flex;display: -webkit-flex;cursor: pointer;display: inline-block;position: relative;left: 155px;top: -22px;}
+.nav-writePage icon{color: #007fff;}
+.mainColor{color: #007fff;}
+.writePageIcon{margin-top: 4px;margin-right: 5px;}
+.writePage{cursor: pointer;}
+.writePage::after{
+    content: '|';
+    margin-left: 10px;
+}
+.nav-login::after{
+    content: '\B7';
+    margin-left: 0.2rem;
+}
+.nav-register{margin-left: 0.2rem;cursor: pointer;}
+.nav-form-margin{margin-left: 260px;}
+.nav-list-margin{margin-left: 20px;}
 </style>
