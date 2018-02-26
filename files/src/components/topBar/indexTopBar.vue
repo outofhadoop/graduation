@@ -27,7 +27,7 @@
                         <icon name="file-text-o" class="writePageIcon mainColor"></icon><span class="writePage mainColor">写文章</span>
                     </li>
                     <li>
-                        <span class="nav-login mainColor">登录</span>
+                        <span class="nav-login mainColor" v-on:click="loginShow">登录</span>
                         <span class="nav-register mainColor">注册</span>
                     </li>
                 </ul>
@@ -61,7 +61,6 @@ export default {
             }
         ],
         navInputBlur: false,
-
       }
   },
   methods: {
@@ -73,6 +72,9 @@ export default {
       },
       checkFocus () {
           this.navInputBlur = !this.navInputBlur;
+      },
+      loginShow () {
+          this.$emit('login-show');
       }
   }
 }
@@ -110,6 +112,7 @@ header{height: 60px;}
     content: '|';
     margin-left: 10px;
 }
+.nav-login{cursor: pointer;}
 .nav-login::after{
     content: '\B7';
     margin-left: 0.2rem;
