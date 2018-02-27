@@ -1,7 +1,7 @@
 <template>
   <div class="index">
     <top-nav @login-show="loginShow"></top-nav>
-    <login-box v-show="loginBoxShow"></login-box>
+    <login-box v-show="loginBoxShow" @login-show="loginShow"></login-box>
   </div>
 </template>
 
@@ -28,6 +28,6 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
 </style>
