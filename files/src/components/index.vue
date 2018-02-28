@@ -2,12 +2,14 @@
   <div class="index">
     <top-nav @login-show="loginShow"></top-nav>
     <login-box v-show="loginBoxShow" @login-show="loginShow"></login-box>
+    <index-main-middle-box></index-main-middle-box>
   </div>
 </template>
 
 <script>
 import indexTopNav from '@/components/topBar/indexTopBar'
 import login from '@/components/login'
+import indexMainBox from '@/components/index_main/indexMainBox'
 export default {
   name: 'index',
   data () {
@@ -17,7 +19,8 @@ export default {
   },
   components: {
     'top-nav': indexTopNav,
-    'loginBox': login
+    'loginBox': login,
+    'index-main-middle-box': indexMainBox
   },
   methods: {
     loginShow () {
@@ -29,5 +32,7 @@ export default {
 </script>
 
 <style>
-
+.index{
+  background-color: #f4f5f5;
+}
 </style>

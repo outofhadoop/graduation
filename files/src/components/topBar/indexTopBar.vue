@@ -86,7 +86,8 @@ export default {
 }
 /* 全局样式 */
 /* 头部logo */
-header{height: 60px;}
+.indexNavBox{background: white;}
+header{height: 60px;background: white;}
 .container{margin: auto;max-width: 960px;display: flex;display: -webkit-flex;align-items: center;-ms-flex-align: center;}
 .headLogo a img{width: 100%;height: 100%;}
 .navLogo{display: block;height: 50px;width: 50px;}
