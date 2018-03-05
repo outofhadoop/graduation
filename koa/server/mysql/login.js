@@ -1,21 +1,15 @@
-const koa = require('koa')
-const config = require('./config.js')
-const mysql = require('mysql')
-var query = function(sql, values){
-    return new Promise((resolve,reject) => {
-        if(err){
-            resolve(err)
-        }else{
-            connection.query(sql, values, (err, rows) => {
-                if(err){
-                    reject(err)
-                }else{
-                    resolve(rows)
-                }
-                connection.release()
-            })
-        }
-    })
-}
+const koa = require('koa');
+const p = require('./config.js');
+const mysql = require('mysql');
+const wapper = require('co-mysql');
 
-const login = 'select from '
+
+var username = "root", password = "123456"
+
+const queryUsername = `select * from userinfo where username='${ username }' and password='${ password }'`
+
+p.query(queryUsername).then(function(value){
+    console.log(value);
+},function(err){
+    console.log(err)
+})

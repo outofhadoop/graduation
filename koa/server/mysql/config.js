@@ -1,11 +1,20 @@
+const koa = require('koa');
+const mysql = require('mysql');
+const wapper = require('co-mysql');
+
 const config = {
-    port: 3306,
     database: {
-        DATABASE: 'graduationdesign',
-        USERNAME: 'root',
-        PASSWORD: '1547923100',
-        HOST: '120.24.226.55'
+        port: 3306,
+        database: 'graduationdesign',
+        user: "root",
+        password: '1547923100',
+        host: '120.24.226.55'
     }
 }
 
-module.exports = config
+
+
+var pool = mysql.createPool(config.database),
+    p = wapper(pool);
+
+module.exports = p;
