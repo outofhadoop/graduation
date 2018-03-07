@@ -4,12 +4,25 @@ const mysql = require('mysql');
 const wapper = require('co-mysql');
 
 
-var username = "root", password = "123456"
+var username = "", password = "";
 
-const queryUsername = `select * from userinfo where username='${ username }' and password='${ password }'`
 
-p.query(queryUsername).then(function(value){
-    console.log(value);
-},function(err){
-    console.log(err)
-})
+
+
+
+var login = ctx => {
+    console.log('123')
+    var msg = ctx.request.body;
+    username = msg.username;
+    password = msg.password;
+    var queryUsername = `select * from userinfo where username='${ username }' and password='${ password }'`
+    p.query(queryUsername).then(function(value){
+        ctx.body = value;
+    },function(err){
+        console.log(err)
+    })
+}
+
+module.experts = {
+    login: login
+}
