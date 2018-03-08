@@ -7,11 +7,34 @@
                     <li v-for="item in navList" v-bind:key='item.index'>{{ item }}</li>
                 </ul>
             </nav>
+            <ul>
+                <li v-for="item1 in index_content" v-bind:key='item1.index'>
+                    <a>
+                        <div>
+                            <div>
+                                <div>
+                                    <a href="">{{ item1.title }}</a>
+                                </div>
+                                <div>
+                                    <ul>
+                                        <li><span>{{ item1.type }}</span></li>
+                                        <li><div>{{ item1.author }}</div></li>
+                                        <li>{{ item1.time }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+
+                        </div>
+                    </a>
+                </li>
+            </ul>
         </div>
         <div class="index_left">
             <div class="index_left_link">
                 <ul>
-                    <li v-for="item in leftUl" v-bind:key='item.index'>{{ item }}</li>
+                    <li v-for="item2 in leftUl" v-bind:key='item2.index'>{{ item2 }}</li>
                 </ul>
             </div>
         </div>
@@ -23,7 +46,30 @@ export default {
     data () {
         return {
             navList: [ '医学', '生物', '数学', '国际' ],
-            leftUl: ['优秀论文','FAQ']
+            leftUl: ['优秀论文','FAQ'],
+            index_content: [
+                {
+                    title: '假装有标题',
+                    type: '分类',
+                    author: '我是作者',
+                    time: '2018-2-2',
+                    count: '99999'
+                },
+                {
+                    title: '假装有标题',
+                    type: '分类',
+                    author: '我是作者',
+                    time: '2018-2-2',
+                    count: '99999'
+                },
+                {
+                    title: '假装有标题',
+                    type: '分类',
+                    author: '我是作者',
+                    time: '2018-2-2',
+                    count: '99999'
+                },
+            ]
         }
     },
     methods: {
@@ -86,5 +132,6 @@ nav{background-color: #fff;display: flex;-webkit-box-pack: justify;display: -web
 .index_left_link ul{
     list-style: none;
 }
+
 </style>
 
