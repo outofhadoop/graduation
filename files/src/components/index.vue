@@ -35,4 +35,12 @@ export default {
 .index{
   background-color: #f4f5f5;
 }
+.ul{
+  -webkit-margin-before: 0px;
+  -webkit-margin-after: 0px;
+  list-style-type: circle;
+  -webkit-margin-start: 0px;
+  -webkit-margin-end: 0px;
+  -webkit-padding-start: 40px;
+}
 </style>

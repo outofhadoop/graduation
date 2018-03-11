@@ -8,18 +8,18 @@
                 </ul>
             </nav>
             <ul>
-                <li v-for="item1 in index_content" v-bind:key='item1.index'>
-                    <a>
-                        <div>
+                <li v-for="(item1, index) in index_content" v-bind:key='item1.index' class="index_content_li">
+                    <a class="index_content_li_a">
+                        <div class="index_content_li_a_div">
                             <div>
                                 <div>
                                     <a href="">{{ item1.title }}</a>
                                 </div>
-                                <div>
+                                <div class="index_content_li_div">
                                     <ul>
-                                        <li><span>{{ item1.type }}</span></li>
-                                        <li><div>{{ item1.author }}</div></li>
-                                        <li>{{ item1.time }}</li>
+                                        <li><span class="index_content_li_span" v-bind:class="'index_content_li_span_color_' + item1.type">{{ item1.type }}</span></li>
+                                        <li class="index_content_li_2"><div>{{ item1.author }}</div></li>
+                                        <li class="index_content_li_3">{{ item1.time }}</li>
                                     </ul>
                                 </div>
                             </div>
@@ -50,21 +50,21 @@ export default {
             index_content: [
                 {
                     title: '假装有标题',
-                    type: '分类',
+                    type: 'yixue',
                     author: '我是作者',
                     time: '2018-2-2',
                     count: '99999'
                 },
                 {
                     title: '假装有标题',
-                    type: '分类',
+                    type: 'yixue',
                     author: '我是作者',
                     time: '2018-2-2',
                     count: '99999'
                 },
                 {
                     title: '假装有标题',
-                    type: '分类',
+                    type: 'yixue',
                     author: '我是作者',
                     time: '2018-2-2',
                     count: '99999'
@@ -73,6 +73,9 @@ export default {
         }
     },
     methods: {
+
+    },
+    computed: {
 
     }
 }
@@ -132,6 +135,119 @@ nav{background-color: #fff;display: flex;-webkit-box-pack: justify;display: -web
 .index_left_link ul{
     list-style: none;
 }
-
+.index_content_li{
+    background: white;
+    border-bottom: 1px solid rgba(178,186,194,.15);
+    list-style: none;
+    display: list-item;
+    text-align: -webkit-match-parent;
+}
+.index_content_li_a{
+    word-break: break-word;
+    -ms-word-break: break-word;
+    -webkit-word-break: break-word;
+    cursor: pointer;
+}
+.index_content_li_a_div{
+    display: flex;
+    display: -ms-flexbox;
+    display: -webkit-box;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 1.167rem 2rem;
+    min-height: 5.75rem;
+}
+.index_content_li_a_div div{
+    display: list-item;
+    text-align: -webkit-match-parent;
+}
+.index_content_li_a_div div div{
+    -webkit-box-direction: normal;
+    margin: .3rem 0 .5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.index_content_li_a_div div div a{
+    white-space: nowrap;
+    overflow: hidden;
+    color: #333;
+    text-decoration: none;
+    font-weight: bold;
+}
+.index_content_li_a_div div div a:hover{
+    text-decoration: underline;
+}
+.index_content_li_div{
+    font-size: 1rem;
+    color: #8f969c;
+    display: block;
+    -webkit-box-direction: normal;
+}
+.index_content_li_div ul{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: baseline;
+    -ms-flex-align: baseline;
+    align-items: baseline;
+    white-space: nowrap;
+    list-style: none;
+}
+.index_content_li_div ul li{
+    display: list-item;
+    text-align: -webkit-match-parent;
+}
+.index_content_li_span_color_yixue{
+    background-color: #abbb79;
+}
+.index_content_li_span_color_lunwen{
+    background-color: #abbb79;
+}
+.index_content_li_span{
+    display: inline-block;
+    margin-right: 1rem;
+    padding: .18rem 0;
+    min-width: 4.5rem;
+    text-align: center;
+    line-height: 1;
+    color: #fff;
+    border-radius: 10px;
+}
+.index_content_li_2{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: baseline;
+    -ms-flex-align: baseline;
+    align-items: baseline;
+    font-size: 1rem;
+    color: #8f969c;
+    cursor: pointer;
+}
+.index_content_li_2 div{
+    white-space: nowrap;
+    font-size: 0.8rem;
+    color: #8f969c;
+}
+.index_content_li_2 div::after{
+    content: '\B7';
+    margin: 0 .4em;
+    color: #8f969c;
+}
+.index_content_li_2 div:hover{
+    color: #007fff;
+}
+.index_content_li_3::after{
+    content: '\B7';
+    margin: 0 .4em;
+    color: #8f969c;
+}
+.index_content_li_3{
+    white-space: nowrap;
+    font-size: 0.8rem;
+    color: #8f969c;
+}
 </style>
 
