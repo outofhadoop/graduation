@@ -7,6 +7,7 @@ import router from './router'
 import  'element-ui/lib/theme-chalk/index.css'
 import 'vue-awesome/icons'
 import Icon from 'vue-awesome/components/Icon'
+import axios from 'axios'
 Vue.component('icon', Icon);
 
 Vue.config.productionTip = false

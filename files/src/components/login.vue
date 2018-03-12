@@ -4,17 +4,16 @@
       <div class="loginBox">
           <h1>登录</h1>
             <span v-on:click="close_login"><icon name="close" class="login_close"></icon></span>
-          <el-form :model="formLogin" class="login_form">
+          <el-form v-model="formLogin" class="login_form">
               <div class="login_form_div">
                 <el-form-item required>
-                    <el-input :model="formLogin.username" placeholder='请输入用户名' class="login_input"></el-input>
+                    <el-input  v-model="formLogin.username" placeholder='请输入用户名' class="login_input"></el-input>
                 </el-form-item>
                 <el-form-item required>
-                    <el-input :model="formLogin.password" placeholder='请输入密码' class="login_input"></el-input>
+                    <el-input  v-model="formLogin.password" placeholder='请输入密码' class="login_input"></el-input>
                 </el-form-item>
               </div>
-
-               <el-button type="primary" class="login_button">登录</el-button>
+               <el-button type="primary" class="login_button" v-on:click="loginfn">登录</el-button>
                <!-- <div class="login_register_in">
                    <span>没有账号？</span>
                    <span>注册</span>
@@ -37,6 +36,10 @@ export default {
       close_login () {
           console.log('click')
           this.$emit('login-show');
+      },
+      loginfn () {
+          
+          console.dir(this.formLogin);
       }
   }
 }
