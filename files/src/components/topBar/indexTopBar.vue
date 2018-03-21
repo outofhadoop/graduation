@@ -23,13 +23,18 @@
                             <input type="text" maxlength="32" v-on:blur="checkBlur" v-on:focus="checkFocus" v-bind:class="navInputBlur ? 'nav-search-input-focus' : 'nav-search-input-blur'"><icon name="search" class="nav-search-icon-blur" v-bind:class="navInputBlur ? 'nav-search-icon-blur' : 'nav-search-icon-focus'"></icon>
                         </form>
                     </li>
-                    <li class="nav-writePage mainColor">
+                    <li class="nav-writePage mainColor" @click="LinkTowritePage">
                         <icon name="file-text-o" class="writePageIcon mainColor"></icon><span class="writePage mainColor">写文章</span>
                     </li>
-                    <li>
+                    <li  v-if="loginState" :style="{backgroundImage: 'url('+ userInfo.headImgUrl +')'}">
+                        <div class="indexTopBar_userDiv">
+                        </div>
+                    </li>
+                    <li v-else>
                         <span class="nav-login mainColor" v-on:click="loginShow">登录</span>
                         <span class="nav-register mainColor">注册</span>
                     </li>
+
                 </ul>
             </nav>
           </div>
@@ -41,7 +46,7 @@
 export default {
   data () {
       return {
-        imgHea: 'http://localhost:3000/resource/',
+        imgHea: 'http://localhost:3000/image/',
         navli: [
             {
                 name: "首页",
@@ -64,6 +69,9 @@ export default {
       }
   },
   methods: {
+      LinkTowritePage () {
+          this.$router.push('writePage')
+      },
       homeNavMenu () {
 
       },
@@ -76,6 +84,18 @@ export default {
       loginShow () {
           this.$emit('login-show');
       }
+  },
+  computed: {
+      loginState () {
+        return this.$store.state.login.loginState; 
+      },
+      userInfo () {
+        return this.$store.state.login.userInfo; 
+      }
+  },
+  mounted () {
+      // 是否登录
+      console.log(this.loginState);
   }
 }
 </script>
@@ -121,4 +141,16 @@ header{height: 60px;background: white;}
 .nav-register{margin-left: 0.2rem;cursor: pointer;}
 .nav-form-margin{margin-left: 260px;}
 .nav-list-margin{margin-left: 20px;}
+.indexTopBar_userDiv{
+    /* background: url(http://localhost:3000/image/dongli.jpg); */
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background-position: 50%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #eee;
+    text-align: -webkit-match-parent;
+    cursor: pointer;
+}
 </style>

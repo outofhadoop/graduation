@@ -1,6 +1,6 @@
 <template>
   <div class="index">
-    <top-nav @login-show="loginShow"></top-nav>
+    <top-nav @login-show="loginShow" ></top-nav>
     <login-box v-show="loginBoxShow" @login-show="loginShow"></login-box>
     <index-main-middle-box></index-main-middle-box>
   </div>

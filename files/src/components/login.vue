@@ -4,16 +4,20 @@
       <div class="loginBox">
           <h1>登录</h1>
             <span v-on:click="close_login"><icon name="close" class="login_close"></icon></span>
-          <el-form v-model="formLogin" class="login_form">
+          <!-- <el-form v-model="formLogin" ref='formLogin' class="login_form" :rules='rules'> -->
+          <el-form :model="formLogin" :rules="rules" ref="formLogin" class="login_form">
               <div class="login_form_div">
-                <el-form-item required>
-                    <el-input  v-model="formLogin.username" placeholder='请输入用户名' class="login_input"></el-input>
+                <el-form-item prop="username">
+                    <el-input v-model="formLogin.username" class="login_input"  placeholder="请输入用户名"></el-input>
                 </el-form-item>
-                <el-form-item required>
-                    <el-input  v-model="formLogin.password" placeholder='请输入密码' class="login_input"></el-input>
+                <el-form-item  prop="password" >
+                    <el-input v-model="formLogin.password" class="login_input" placeholder="请输入密码"></el-input>
                 </el-form-item>
               </div>
-               <el-button type="primary" class="login_button" v-on:click="loginfn">登录</el-button>
+              <el-form-item>
+                  <el-button type="primary" class="login_button" v-on:click="loginfn('formLogin')">登录</el-button>
+              </el-form-item>
+               
                <!-- <div class="login_register_in">
                    <span>没有账号？</span>
                    <span>注册</span>
@@ -23,23 +27,55 @@
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex'
 export default {
   data () {
       return {
             formLogin: {
                 username: '',
                 password: ''
+            },
+            rules: {
+                username: [
+                    { required: true, message: '请输入用户名', trigger: 'blur' },
+                    { min: 3, max: 15, message: '长度在 3 到 15 个字符', trigger: 'blur' }
+                ],
+                password: [
+                    { required: true, message: '请输入密码', trigger: 'blur' }
+                ]
+
             }
       }
   },
   methods: {
+    //   ...mapActions([
+    //       'login'
+    //   ]),
       close_login () {
           console.log('click')
           this.$emit('login-show');
       },
-      loginfn () {
-          
-          console.dir(this.formLogin);
+      loginfn (formName) {
+        let that = this;
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.$http.post('http://localhost:3000/login',
+                this.formLogin
+            )
+            .then(function(res){
+                console.dir(res)
+                console.log('登陆成功')
+                // this.login()
+                that.$store.commit('login')
+                that.$store.commit('setUserInfo', res)
+            })
+            .catch(function(error){
+                console.log(error)
+            });
+          } else {
+            return false;
+          }
+        })
       }
   }
 }
@@ -91,6 +127,9 @@ export default {
         cursor: pointer;
         color: #fff;
         border: none;
+    }
+    .el-form-item__error{
+        margin-left: 20px;
     }
 </style>
 
