@@ -6,14 +6,17 @@ import ElementUI from 'element-ui'
 import App from './App'
 import router from './router'
 import  'element-ui/lib/theme-chalk/index.css'
+import 'mavon-editor/dist/css/index.css'
 import 'vue-awesome/icons'
 import Icon from 'vue-awesome/components/Icon'
 import axios from 'axios'
+import mavonEditor from 'mavon-editor'
 import store from './store/store'
 import { mapMutations, mapState, mapActions, mapGetters } from 'vuex'
 Vue.component('icon', Icon);
 Vue.prototype.$http = axios;
 // Vue.use(vuex)
+Vue.use(mavonEditor)
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 /* eslint-disable no-new */

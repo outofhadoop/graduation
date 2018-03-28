@@ -22,3 +22,12 @@ export function getCookie(name) {
     if (cval != null)
      document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
    };
+
+   export function getDate() {
+     let date = new Date()
+      let s = date.toString().split(' ')[4]
+      let d1 = new Date(date.getTime())
+      let d = d1.toLocaleDateString()
+      let d_s = d + '/' + s
+      return d_s
+   }

@@ -28,6 +28,7 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
+import { getDate } from '../util/util'
 export default {
   data () {
       return {
@@ -68,6 +69,18 @@ export default {
                 // this.login()
                 that.$store.commit('login')
                 that.$store.commit('setUserInfo', res)
+                window.sessionStorage.setItem('userInfo',JSON.stringify(res));
+                that.$http.post('http://localhost:3000/log/logInsert',{
+                    userid: res.data.userID,
+                    loginTime: getDate(),
+                    loginDevice: navigator.userAgent
+                })
+                .then(function(res){
+                    console.dir(res)
+                })
+                .catch(function(error){
+                    console.log(error)
+                })
             })
             .catch(function(error){
                 console.log(error)

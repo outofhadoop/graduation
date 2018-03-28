@@ -27,7 +27,7 @@
                         <icon name="file-text-o" class="writePageIcon mainColor"></icon><span class="writePage mainColor">写文章</span>
                     </li>
                     <li  v-if="loginState" :style="{backgroundImage: 'url('+ userInfo.headImgUrl +')'}">
-                        <div class="indexTopBar_userDiv">
+                        <div class="indexTopBar_userDiv" @click='userHome'>
                         </div>
                     </li>
                     <li v-else>
@@ -83,6 +83,9 @@ export default {
       },
       loginShow () {
           this.$emit('login-show');
+      },
+      userHome () {
+          this.$router.push('userHome')
       }
   },
   computed: {
@@ -96,6 +99,13 @@ export default {
   mounted () {
       // 是否登录
       console.log(this.loginState);
+      let sessionMessage = window.sessionStorage.getItem('userInfo') || '{}'
+      let userInfo = JSON.parse(sessionMessage) || {}
+      if(JSON.stringify(userInfo) === '{}' || userInfo === undefined){
+          this.$store.commit('logout')
+      }else{
+          this.$store.commit('login')
+      }
   }
 }
 </script>
