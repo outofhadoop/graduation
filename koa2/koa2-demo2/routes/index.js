@@ -2,6 +2,8 @@ const router = require('koa-router')()
 const login = require('../mysql/login')
 const writePage = require('../mysql/writePage')
 const log = require('../mysql/log')
+const upload = require('../multer.js')
+const userInfo  = require('../mysql/userInfo')
 
 router.get('/', async (ctx, next) => {
   await ctx.render('index', {
@@ -33,5 +35,11 @@ router.post('/writePage/updateTitle', writePage.updateTitle)
 router.post('/log/logInsert', log.logInsert)
 
 router.post('/log/responseLog', log.responseLog)
+
+router.post('/userInfo/getUserInfo', userInfo.getUserInfo)
+
+router.post('/userInfo/setUserInfo', userInfo.setUserInfo)
+
+router.post('/profile', upload.uploadImg.single('img'), upload.uploadUserHeadImg)
 
 module.exports = router

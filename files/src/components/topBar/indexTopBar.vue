@@ -26,8 +26,8 @@
                     <li class="nav-writePage mainColor" @click="LinkTowritePage">
                         <icon name="file-text-o" class="writePageIcon mainColor"></icon><span class="writePage mainColor">写文章</span>
                     </li>
-                    <li  v-if="loginState" :style="{backgroundImage: 'url('+ userInfo.headImgUrl +')'}">
-                        <div class="indexTopBar_userDiv" @click='userHome'>
+                    <li  v-if="loginState">
+                        <div class="indexTopBar_userDiv" @click='userHome' :style="{backgroundImage: 'url('+ userInfo.headImgUrl +')'}">
                         </div>
                     </li>
                     <li v-else>
@@ -162,5 +162,6 @@ header{height: 60px;background: white;}
     background-color: #eee;
     text-align: -webkit-match-parent;
     cursor: pointer;
+    background-size: cover;
 }
 </style>

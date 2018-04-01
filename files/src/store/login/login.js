@@ -4,7 +4,7 @@ export default {
         userInfo: {
             username : '',
             password: '',
-            headImgUrl: 'http://localhost:3000/image',
+            headImgUrl: 'http://localhost:3000/image/user.png',
             loginTime: ''
         }
     },
@@ -18,7 +18,10 @@ export default {
         setUserInfo (state, payload) {
             state.userInfo.username = payload.username
             state.userInfo.password = payload.password
-            state.userInfo.headImgUrl = payload.headImgUrl == '' ? 'http://localhost:3000/image/user.png' : payload.headImgUrl
+            state.userInfo.headImgUrl = payload.headImgUrl == 'http://localhost:3000/image/user.png' ? 'http://localhost:3000/image/user.png' : payload.headImgUrl
+        },
+        setUserHeadImgUrl (state, payload) {
+            state.userInfo.headImgUrl = payload.headImgUrl;
         }
     },
     action: {

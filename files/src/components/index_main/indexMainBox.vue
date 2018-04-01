@@ -77,6 +77,10 @@ export default {
     },
     computed: {
 
+    },
+    mounted () {
+        var that = this
+        
     }
 }
 </script>
