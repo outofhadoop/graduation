@@ -10,7 +10,6 @@ var writePage = async (ctx, next) => {
     await p.query(insertPage).then(function(value){
         try{
             if(value !== undefined){
-                console.log(value)
                 ctx.response.body = 'insert success'
                 next()
             }
@@ -28,20 +27,21 @@ var updatePage = async (ctx,next) => {
     // let userid = msg.userid;
     // let title = msg.title;
     let content = msg.content;
-    // let titleImgUrl = msg.titleImgUrl;
-    var updatepage = `update thesis_info set thesisContent='${content}' where thesisUUID='${uuid}'`
+    let thesisBeforeContent = msg.thesisBeforeContent;
+    var updatepage = `update thesis_info set thesisContent='${content}',thesisBeforeContent='${thesisBeforeContent}' where thesisUUID='${uuid}'`
     await p.query(updatepage).then(function(value){
         try{
             if(value !== undefined){
-                console.log(value)
                 ctx.response.body = 'update success'
                 next()
             }
         }catch(e){
             console.log(e)
+            next()
         }
     },function(err){
         console.log(err)
+        next()
     })
 }
 
@@ -53,20 +53,43 @@ var updateTitle = async (ctx, next) => {
     await p.query(updatetitle).then(function(value){
         try{
             if(value !== undefined){
-                console.log(value)
                 ctx.response.body = `update title ${uuid} success`
                 next()
             }
         }catch(e){
             console.log(e)
+            next()
         }
     },function(err){
         console.log(err)
+        next()
+    })
+}
+
+var publishThesis = async (ctx, next) => {
+    var msg = ctx.request.body;
+    var thesisUUID = msg.thesisUUID;
+    let kind = msg.thesisKind;
+    var publishthesis = `update thesis_info set thesisKind='${kind}', public=1 where thesisUUID='${thesisUUID}'` 
+    await p.query(publishthesis).then(function(value){
+        try{
+            if(value !== undefined){
+                ctx.response.body = `publish ${thesisUUID} success`
+                next()
+            }
+        }catch(e){
+            console.log(e)
+            next()
+        }
+    },function(err){
+        console.log(err)
+        next()
     })
 }
 
 module.exports = {
     updatePage,
     writePage,
-    updateTitle
+    updateTitle,
+    publishThesis
 }

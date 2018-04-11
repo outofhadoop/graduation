@@ -3,7 +3,7 @@
       <header>
           <div class="container">
             <div class="headLogo">
-                <a href="#" class="navLogo"><img v-bind="{ src: `${imgHea}dongli.jpg` }"></a>
+                <a href="javascript:void(0)" @click="goHome" class="navLogo"><img v-bind="{ src: `${imgHea}dongli.jpg` }"></a>
             </div>
             <nav role="navigation" class="main-nav">
                 <ul  class="nav-ul-mobile">
@@ -11,7 +11,7 @@
                         <el-menu  @select="homeNavMenu">
                             <el-submenu class="home-top-nav-menu" index="1">
                                 <template slot="title"><icon name="navicon"></icon></template>
-                                <el-menu-item v-for="item in navli" index="1-1" v-bind:key="item.id">{{ item.name }}</el-menu-item>
+                                <el-menu-item v-for="item in navli" index="1-1" v-bind:key="item.id" @click="goHome">{{ item.name }}</el-menu-item>
                             </el-submenu>
                         </el-menu>
                     </div></li>
@@ -32,7 +32,7 @@
                     </li>
                     <li v-else>
                         <span class="nav-login mainColor" v-on:click="loginShow">登录</span>
-                        <span class="nav-register mainColor">注册</span>
+                        <span class="nav-register mainColor" v-on:click="registerShow">注册</span>
                     </li>
 
                 </ul>
@@ -69,6 +69,9 @@ export default {
       }
   },
   methods: {
+      goHome(){
+          this.$router.push('/')
+      },
       LinkTowritePage () {
           this.$router.push('writePage')
       },
@@ -84,8 +87,12 @@ export default {
       loginShow () {
           this.$emit('login-show');
       },
+      registerShow () {
+          this.$emit('register-show');
+          console.log('click register')
+      },
       userHome () {
-          this.$router.push('userHome')
+          this.$router.push('/userHome')
       }
   },
   computed: {

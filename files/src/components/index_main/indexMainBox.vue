@@ -9,16 +9,16 @@
             </nav>
             <ul>
                 <li v-for="(item1, index) in index_content" v-bind:key='item1.index' class="index_content_li">
-                    <a class="index_content_li_a">
+                    <a class="index_content_li_a" @click="goThesis(item1.thesisID)">
                         <div class="index_content_li_a_div">
                             <div>
                                 <div>
-                                    <a href="">{{ item1.title }}</a>
+                                    <a href="">{{ item1.thesisTitle }}</a>
                                 </div>
                                 <div class="index_content_li_div">
                                     <ul>
-                                        <li><span class="index_content_li_span" v-bind:class="'index_content_li_span_color_' + item1.type">{{ item1.type }}</span></li>
-                                        <li class="index_content_li_2"><div>{{ item1.author }}</div></li>
+                                        <li><span class="index_content_li_span" v-bind:class="'index_content_li_span_color_' + item1.thesisKind">{{ item1.thesisKind }}</span></li>
+                                        <li class="index_content_li_2"><div>{{ item1.username }}</div></li>
                                         <li class="index_content_li_3">{{ item1.time }}</li>
                                     </ul>
                                 </div>
@@ -45,6 +45,7 @@
 export default {
     data () {
         return {
+            num: 6,
             navList: [ '医学', '生物', '数学', '国际' ],
             leftUl: ['优秀论文','FAQ'],
             index_content: [
@@ -73,14 +74,35 @@ export default {
         }
     },
     methods: {
-
+        goThesis (id) {
+            this.$router.push(`/thesis/${id}`)
+        }
     },
     computed: {
 
     },
     mounted () {
         var that = this
-        
+        this.$http.post('http://localhost:3000/thesis/getThesis', {'num': that.num})
+        .then(function(res){
+            console.log(res)
+            that.index_content = res.data
+        })
+
+        window.onscroll=function(){
+            let h1 = document.body.scrollTop?document.body.scrollTop:document.documentElement.scrollTop,
+                h2 = document.documentElement.clientHeight?document.documentElement.clientHeight:document.body.clientHeight,
+                h3 = document.documentElement.scrollHeight?document.documentElement.scrollHeight:document.body.scrollHeight
+            if((h1 + h2) == h3){
+                console.log('daodi')
+                that.num = that.num + 6
+                that.$http.post('http://localhost:3000/thesis/getThesis', {'num': that.num})
+                .then(function(res){
+                    console.log(res)
+                    that.index_content = res.data
+                })
+            }
+        }
     }
 }
 </script>
@@ -203,11 +225,23 @@ nav{background-color: #fff;display: flex;-webkit-box-pack: justify;display: -web
     display: list-item;
     text-align: -webkit-match-parent;
 }
-.index_content_li_span_color_yixue{
+.index_content_li_span_color_医学{
     background-color: #abbb79;
 }
 .index_content_li_span_color_lunwen{
     background-color: #abbb79;
+}
+.index_content_li_span_color_论文{
+    background-color: #f55d21;
+}
+.index_content_li_span_color_产品{
+    background-color: #3af521;
+}
+.index_content_li_span_color_设计{
+    background-color: #dc21f5;
+}
+.index_content_li_span_color_人工智能{
+    background-color: #5e24ff;
 }
 .index_content_li_span{
     display: inline-block;

@@ -7,7 +7,7 @@ var getUserInfo = async (ctx, next) => {
     await p.query(getuserinfo).then(function(value){
         try{
             if(value !== undefined){
-                console.log(value)
+                // console.log(value)
                 ctx.response.body = value[0]
                 next()
             }
@@ -26,7 +26,7 @@ var setUserInfo = async (ctx, next) => {
     await p.query(setuserinfo).then(function(value){
         try{
             if(value !== undefined){
-                console.log(value)
+                // console.log(value)
                 ctx.response.body = 'update userinfo success'
                 next()
             }

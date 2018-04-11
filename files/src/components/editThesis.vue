@@ -27,16 +27,16 @@
                             </div>
                             <div class="WP_publish">
                                     <el-dropdown @command="handleCommand">
-                                    <span class="el-dropdown-link">
-                                        类别<i class="el-icon-arrow-down el-icon--right"></i>
-                                    </span>
-                                    <el-dropdown-menu slot="dropdown" >
-                                        <el-dropdown-item command="论文">论文</el-dropdown-item>
-                                        <el-dropdown-item command="医学">医学</el-dropdown-item>
-                                        <el-dropdown-item command="产品">产品</el-dropdown-item>
-                                        <el-dropdown-item command="设计">设计</el-dropdown-item>
-                                        <el-dropdown-item command="人工智能">人工智能</el-dropdown-item>
-                                    </el-dropdown-menu>
+                                        <span class="el-dropdown-link">
+                                            类别<i class="el-icon-arrow-down el-icon--right"></i>
+                                        </span>
+                                        <el-dropdown-menu slot="dropdown" >
+                                            <el-dropdown-item command="论文">论文</el-dropdown-item>
+                                            <el-dropdown-item command="医学">医学</el-dropdown-item>
+                                            <el-dropdown-item command="产品">产品</el-dropdown-item>
+                                            <el-dropdown-item command="设计">设计</el-dropdown-item>
+                                            <el-dropdown-item command="人工智能">人工智能</el-dropdown-item>
+                                        </el-dropdown-menu>
                                     </el-dropdown>
                             </div>
                             <div class="indexTopBar_userDiv">
@@ -49,7 +49,7 @@
             
         </div>
         <div class="WP_write">
-                <mavon-editor @change="$change" @save='$save'></mavon-editor>
+                <mavon-editor @change="$change" @save='$save' :value='pageInfo.content'></mavon-editor>
             </div>
     </div>
 
@@ -66,23 +66,6 @@ export default {
             content: '',
             title: this.title
         },
-        gridData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }],
         dialogTableVisible: false,
         dialogFormVisible: false,
         form: {
@@ -161,28 +144,23 @@ export default {
         }
     },
     mounted () {
-        var that = this;
-        // 创建即插入一条草稿
-        let date = new Date()
-        let dateNum = date.getTime()
-        let ranNum = Math.round(Math.random()*9999)
-        let uuid = 'uuid' + dateNum + ranNum
-        this.uuid = uuid
+        // 获取 路由 thesisUUID
+        let thesisUUID = this.$route.params.thesisUUID
+        var that = this
+        this.uuid = thesisUUID
         let sessionInfo = window.sessionStorage.getItem('userInfo')
         var userinfo = JSON.parse(sessionInfo)
         var userid = userinfo.data.userID;
-        console.log('文章的uuid:' + uuid);
-        var page = {
-            'uuid': uuid,
-            'userid': userid,
-            'title': '',
-            'content': ''
-        }
-        this.$http.post('http://localhost:3000/writePage',
-            page
+        this.$http.post('http://localhost:3000/thesis/editThesis',
+            {
+                'thesisUUID': thesisUUID
+            }
         )
         .then(function(res){
             console.dir(res);
+            that.pageInfo.content = res.data.thesisBeforeContent
+            that.title = res.data.thesisTitle
+            console.log('mounted输出'+that.pageInfo.content)
         })
         .catch(function(error){
             console.log(error)

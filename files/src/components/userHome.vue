@@ -74,8 +74,51 @@
                   </el-form-item>
                 </el-form>
               </el-tab-pane>
-              <el-tab-pane label="浏览历史" name="third">角色管理</el-tab-pane>
-              <el-tab-pane label="我的管理" name="fourth">定时任务补偿</el-tab-pane>
+              <el-tab-pane label="浏览历史" name="third">
+                    <el-table
+                      :data="history"
+                      style="width: 100%"
+                      @row-click='goThesis'>
+                      <el-table-column
+                        prop="thesisTitle"
+                        label="标题">
+                      </el-table-column>
+                      <el-table-column
+                        prop="username"
+                        label="作者">
+                      </el-table-column>
+                    </el-table>                
+              </el-tab-pane>
+              <el-tab-pane label="我的管理" name="fourth">
+                <el-table
+                  v-loading="loading"
+                  :data="userThesis"
+                  style="width: 100%">
+                  <el-table-column
+                    label="标题"
+                    prop='thesisTitle'>
+                  </el-table-column>
+                  <el-table-column label="操作">
+                    <template slot-scope="scope">
+                      <el-button
+                        size="mini"
+                        v-if="scope.row.public==1"
+                        @click="userThesisUnPublish(scope.$index, scope.row)">取消发布</el-button>
+                      <el-button
+                        size="mini"
+                        v-else
+                        @click="userThesisPublish(scope.$index, scope.row)">发布</el-button>
+                      <el-button
+                        size="mini"
+                        @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                      <el-button
+                        size="mini"
+                        type="danger"
+                        @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                    </template>
+                  </el-table-column>
+                </el-table>
+              </el-tab-pane>
             </el-tabs>
           </div>
       </div>
@@ -86,6 +129,9 @@ import indexTopNav from '@/components/topBar/indexTopBar'
 export default {
   data () {
       return {
+        loading: true,
+        userThesis:[{thesisTitle: '',time: ''}],
+        history: [{thesisTiele: '', username: ''}],
         userHeadImg: '',
         imageUrl: '',
         userinfo: JSON.parse(window.sessionStorage.getItem('userInfo')).data,
@@ -118,6 +164,44 @@ export default {
     'top-nav': indexTopNav
   },
   methods: {
+    handleEdit(index, row){
+      this.$router.push(`/editThesis/${row.thesisUUID}`)
+    },
+    userThesisPublish (index, row) {
+      var that = this;
+      this.$http.post('http://localhost:3000/log/setUserThesisPublish', {'thesisID': row.thesisID, 'userID': JSON.parse(window.sessionStorage.getItem('userInfo')).data.userID})
+      .then(function(res){
+        try{
+          console.log(res)
+          that.$message({
+            message: '发布成功',
+            type: 'success'
+          })
+          that.userThesis = res.data
+        }catch(e){
+          console.log(e)
+        }
+      })
+    },
+    userThesisUnPublish (index, row) {
+      var that = this;
+      this.$http.post('http://localhost:3000/log/setUserThesisUnPublish', {'thesisID': row.thesisID, 'userID': JSON.parse(window.sessionStorage.getItem('userInfo')).data.userID})
+      .then(function(res){
+        try{
+          console.log(res)
+          that.$message({
+            message: '取消发布成功',
+            type: 'success'
+          })
+          that.userThesis = res.data
+        }catch(e){
+          console.log(e)
+        }
+      })
+    },
+    goThesis (row, event, column) {
+      this.$router.push(`/thesis/${row.thesisID}`)
+    },
     submitUserInfo () {
       console.log(this.ruleForm);
       var that = this;
@@ -200,6 +284,25 @@ export default {
     .then(function(res){
       console.log(res.data)
       that.ruleForm = res.data
+    })
+    .catch(function(err){
+      console.log(err)
+    })
+
+    this.$http.post('http://localhost:3000/log/getHistory',{ 'userID': userid })
+    .then(function(res){
+      console.log(res.data)
+      that.history = res.data
+    })
+    .catch(function(err){
+      console.log(err)
+    })
+
+    this.$http.post('http://localhost:3000/log/getUserThesis',{ 'userID': userid })
+    .then(function(res){
+      console.log(res.data)
+      that.userThesis = res.data
+      that.loading = false
     })
     .catch(function(err){
       console.log(err)

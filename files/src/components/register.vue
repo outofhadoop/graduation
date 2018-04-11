@@ -2,20 +2,20 @@
   <div class="loginRoot">
       <div class="login_coverLayer"> </div>
       <div class="loginBox">
-          <h1>登录</h1>
+          <h1>注册</h1>
             <span v-on:click="close_login"><icon name="close" class="login_close"></icon></span>
-          <!-- <el-form v-model="formLogin" ref='formLogin' class="login_form" :rules='rules'> -->
-          <el-form :model="formLogin" :rules="rules" ref="formLogin" class="login_form">
+          <!-- <el-form v-model="formRegister" ref='formLogin' class="login_form" :rules='rules'> -->
+          <el-form :model="formRegister" :rules="rules2" ref="formLogin" class="login_form">
               <div class="login_form_div">
                 <el-form-item prop="username" @keyup.13="loginfn">
-                    <el-input @keyup.enter="loginfn" v-model="formLogin.username" class="login_input"  placeholder="请输入用户名"></el-input>
+                    <el-input @keyup.enter="loginfn" v-model="formRegister.username" class="register_input"  placeholder="请输入用户名"></el-input>
                 </el-form-item>
                 <el-form-item  prop="password" >
-                    <el-input @keyup.enter="loginfn" type='password' v-model="formLogin.password" class="login_input" placeholder="请输入密码"></el-input>
+                    <el-input @keyup.enter="loginfn" type='password' v-model="formRegister.password" class="register_input" placeholder="请输入密码"></el-input>
                 </el-form-item>
               </div>
               <el-form-item>
-                  <el-button type="primary" class="login_button" v-on:click="loginfn('formLogin')">登录</el-button>
+                  <el-button type="primary" class="login_button" v-on:click="loginfn('formRegister')">注册</el-button>
               </el-form-item>
                
                <!-- <div class="login_register_in">
@@ -31,10 +31,34 @@ import { mapActions } from 'vuex'
 import { getDate } from '../util/util'
 export default {
   data () {
+      var checkUsername = (rule, value, callback) => {
+            if (value.replace(/(^\s*)|(\s*$)/g, "") === '') {
+            return callback(new Error('用户名不能为空'));
+            
+            }else if(/[@#\,\;\'\"\$%\^&\*]+/g.test(value)){
+                return callback(new Error('含有非法字符'));
+            }else{
+                
+                this.$http.post('http://localhost:3000/register', { 'username': value })
+                .then(function(res){
+                    console.log(value)
+                    console.log(res)
+                    if(res.data){
+                        return callback(new Error('用户名已被占用'))
+                    }
+                })
+            }
+
+      };
       return {
-            formLogin: {
+            formRegister: {
                 username: '',
-                password: ''
+                password: '',
+                sex: '',
+                telephone: '',
+                QQ: '',
+                WeChat: '',
+                email: ''
             },
             rules: {
                 username: [
@@ -45,20 +69,22 @@ export default {
                     { required: true, message: '请输入密码', trigger: 'blur' }
                 ]
 
+            },
+            rules2: {
+                username: [
+                    { validator: checkUsername, trigger: 'blur' }
+                ]
             }
       }
   },
   methods: {
-    //   ...mapActions([
-    //       'login'
-    //   ]),
       close_login () {
           console.log('click')
           console.log(this.$router.app._route.path)
-          if(this.$router.app._route.path == '/login'){
+          if(this.$router.app._route.path == '/register'){
               this.$router.push('/')
           }else{
-            this.$emit('login-show');
+            this.$emit('register-show');
           }
 
       },
@@ -66,28 +92,24 @@ export default {
         let that = this;
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.$http.post('http://localhost:3000/login',
-                that.formLogin
+            this.$http.post('http://localhost:3000/register',
+                that.formRegister
             )
             .then(function(res){
-                console.dir(res)
-                console.log('登陆成功')
-                // this.login()
-                that.$store.commit('login')
-                that.$store.commit('setUserInfo', res)
-                window.sessionStorage.setItem('userInfo',JSON.stringify(res));
-                that.$http.post('http://localhost:3000/log/logInsert',{
-                    userid: res.data.userID,
-                    loginTime: getDate(),
-                    loginDevice: navigator.userAgent
-                })
-                .then(function(res){
+                if(res.data == true){
                     console.dir(res)
-                    that.close_login()
-                })
-                .catch(function(error){
-                    console.log(error)
-                })
+                    that.$message({
+                        message:'注册成功',
+                        type: 'success'
+                        })
+                    that.$router.push('/login')
+                }else{
+                    that.$message({
+                        message:'注册成功',
+                        type: 'warning'
+                        })
+                }
+
             })
             .catch(function(error){
                 console.log(error)
@@ -133,7 +155,7 @@ export default {
         display: block;
         margin-left: 340px;
     }
-    .login_input input{
+    .register_input input{
             width: 17rem;
             height: 1.8rem;
             margin: 1rem;

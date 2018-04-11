@@ -4,6 +4,9 @@ import index from '@/components/index'
 import writePage from '@/components/writePage'
 import login from '@/components/login'
 import userHome from '@/components/userHome'
+import thesis from '@/components/thesis'
+import editThesis from '@/components/editThesis'
+import register from '@/components/register'
 
 
 Vue.use(Router)
@@ -34,6 +37,21 @@ const routes = [
       requireAuth: true,  // 添加该字段，表示进入这个路由是需要登录的
     },
     component: userHome
+  },
+  {
+    path: '/thesis/:thesisID',
+    name: 'thesis',
+    component: thesis
+  },
+  {
+    path: '/editThesis/:thesisUUID',
+    name: 'editThesis',
+    component: editThesis
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: register
   }
 ]
 
